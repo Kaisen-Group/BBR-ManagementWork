@@ -1,4 +1,4 @@
-package com.kaisengroup.bbrmanagementwork;
+package com.kaisengroup.bbrmanagementwork.controller;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
