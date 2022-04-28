@@ -9,30 +9,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/work/")
-public class SpringController {
 
+@RestController
+@RequestMapping("/api/user")
+public class SpringController {
+ 
     @Autowired
     private UserRepository userRepository;
-
-    @GetMapping("user")
-    public List<User> getAllUser(){
+        
+    @GetMapping
+    public List<User> findAllUsers() {
         return  userRepository.findAll();
     }
-
-    @GetMapping("user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable(value = "id") Integer userId){
-        User user=userRepository.findById(userId)
-                .orElseThrow( () -> new IllegalArgumentException(""));
-        return ResponseEntity.ok().body(user);
-
-    }
-
-    @PostMapping("user")
-    public User createUser(@RequestBody User user){
-        return userRepository.save(user);
-    }
-
-
 }
