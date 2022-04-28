@@ -17,7 +17,7 @@ public class SpringController {
     @Autowired
     private UserRepository userRepository;
         
-    @GetMapping
+    @GetMapping("/all")
     public List<User> findAllUsers() {
         return  userRepository.findAll();
     }

@@ -1,7 +1,6 @@
 package com.kaisengroup.bbrmanagementwork.controller.model;
 
 import lombok.*;
-
 import javax.persistence.*;
 
 @Getter
@@ -10,22 +9,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table (name = "User")
+@Table (name = "\"user\"")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "user")
     private String username;
     @Column(name = "password")
     private String password;
 
     @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    private String userRole;
 
-    public User(String username, String password, UserRole userRole) {
+    public User(String username, String password, String userRole) {
         this.username = username;
         this.password = password;
         this.userRole = userRole;
