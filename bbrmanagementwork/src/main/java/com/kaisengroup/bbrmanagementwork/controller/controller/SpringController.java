@@ -136,9 +136,11 @@ public class SpringController {
         return "redirect:/index";
     }
     @GetMapping("/work/archivied")
-    public String loadInfoArchivied(Model modelWorkB, Model modelClienti) {
+    public String loadInfoArchivied(Model modelWorkB, Model modelClienti, Model modelFilterClient) {
+        FilterClient c = new FilterClient();
         modelWorkB.addAttribute("worksB", workRepository.findByStatusFalse());
         modelClienti.addAttribute("clienti", workRepository.findDistinctCliente( ));
+        modelFilterClient.addAttribute("cliente", c);
         return "archivio";
     }
     /*@GetMapping("/work/archivied/filter/{denominazione}")
@@ -158,12 +160,19 @@ public class SpringController {
         return "redirect:/work/archivied/filter?search=" + cliente.getName() + "&type=" + cliente.getType() + "&cliente=" + cliente.getCliente();
     }
     @GetMapping("/work/archivied/filter")
-    public String loadInfoArchiviedFilter(HttpServletRequest request,Model modelClienti, Model modelWorkB) {
+    public String loadInfoArchiviedFilter(HttpServletRequest request,Model modelClienti, Model modelWorkB, Model modelFilterClient) {
         modelClienti.addAttribute("clienti", workRepository.findDistinctCliente( ));
+        FilterClient c = new FilterClient();
+       
         String search = request.getParameter("search");
         String type = request.getParameter("type");
         String cliente = request.getParameter("cliente");
-        System.out.println(search + "+" + type + "+" + cliente);
+        c.setName(search);
+        c.setType(type);
+        c.setCliente(cliente);
+        System.out.println(c.getName());
+        List <Work> workFilteredT = new ArrayList<Work>();
+        List <Work> workFilteredC = new ArrayList<Work>();
         List <Work> workSearched = new ArrayList<Work>();
         List <Work> workArchivied = new ArrayList<Work>();
         workArchivied = workRepository.findByStatusFalse();
@@ -171,10 +180,14 @@ public class SpringController {
             for (Work work : workArchivied) {
                 if(work.getName().toLowerCase().contains(search)){
                     workSearched.add(work);
+                   
                 }
             }
         }
+        workFilteredT=(workRepository.findByType(type));
+        workFilteredC=(workRepository.findByCliente(cliente));
         modelWorkB.addAttribute("worksB", workSearched);//change
+        modelFilterClient.addAttribute("cliente", c);
         return "archivio";
     }
     }

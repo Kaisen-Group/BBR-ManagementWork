@@ -96,14 +96,14 @@
         <div class="mb-3">
           
           <label for="denominazione" class="form-label">Cerca</label>
-          <input type="text" class="form-control" id="denominazione" th:field="*{cliente.name}">
+          <input type="text" class="form-control" id="denominazione" th:value="${cliente.name}" th:field="*{cliente.name}">
         </div>
         </div>
         <div class="col-3 text-center">
         <div class="mb-3">
             <label for="categoria" class="form-label">Categoria</label>
-            <select class="form-select" id="categoria" th:field="*{cliente.type}">
-              <option selected value=""></option>
+            <select class="form-select" id="categoria" th:value="${cliente.type}" th:field="*{cliente.type}">
+              <option selected  th:value="${cliente.type}"> <th:block th:utext="${cliente.type}"/></option>
               <option value="ordine">Ordine</option>
               <option value="ordinem">Ordine Multiplo</option>
               <option value="stampo">Stampo</option>
@@ -114,8 +114,8 @@
         <div class="col-3 text-center">
         <div class="mb-3">
           <label for="categoria" class="form-label">Cliente</label>
-          <select class="form-select" id="categoria" th:field="*{cliente.cliente}">
-            <option selected value=""></option>
+          <select class="form-select" id="categoria" th:value="${cliente.cliente}" th:field="*{cliente.cliente}">
+            <option selected  th:value="${cliente.cliente}"> <th:block th:utext="${cliente.cliente}"/></option>
             <option th:each="cliente : ${clienti}" th:value="${cliente}" th:text="${cliente}"></option>
            
           </select>
@@ -126,6 +126,11 @@
           <div class="mb-3">
           <div class="justify-content-center align-content-center text-center">
             <button type="submit" class="btn btn-primary rounded-pill mt-4" value="Add Work">Filtra</button>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="justify-content-center align-content-center text-center">
+            <button type="submit" class="btn btn-primary rounded-pill mt-4" value="Add Work">Resetta</button>
           </div>
         </div>
       </div>

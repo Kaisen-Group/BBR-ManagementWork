@@ -18,6 +18,8 @@ public interface WorkRepository extends JpaRepository<Work, Integer> {
     List<Work> findByStatusTrue();
 
     List<Work> findByStatusFalse();
+    List<Work> findByType(String type);
+    List<Work> findByCliente(String cliente);
    
     @Query("SELECT DISTINCT cliente FROM Work w WHERE w.status = false")
     List<String> findDistinctCliente();
