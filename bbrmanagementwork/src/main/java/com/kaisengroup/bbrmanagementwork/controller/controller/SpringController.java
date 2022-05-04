@@ -1,5 +1,6 @@
 package com.kaisengroup.bbrmanagementwork.controller.controller;
 
+import com.kaisengroup.bbrmanagementwork.controller.model.FilterClient;
 import com.kaisengroup.bbrmanagementwork.controller.model.User;
 import com.kaisengroup.bbrmanagementwork.controller.model.Work;
 import com.kaisengroup.bbrmanagementwork.controller.repository.UserRepository;
@@ -14,10 +15,14 @@ import org.springframework.validation.BindingResult;
 //import org.springframework.data.crossstore.ChangeSetPersister;
 //import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javassist.expr.NewArray;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +35,10 @@ public class SpringController {
     @ModelAttribute(value = "work")
     public Work getWork() {
         return new Work();
+    }
+    @ModelAttribute(value = "cliente")
+    public FilterClient getcliente() {
+       return new FilterClient();
     }
 
     @Autowired
@@ -127,11 +136,31 @@ public class SpringController {
         return "redirect:/index";
     }
     @GetMapping("/work/archivied")
-    public String loadInfoArchivied(Model modelWorkB) {
+    public String loadInfoArchivied(Model modelWorkB, Model modelClienti) {
         modelWorkB.addAttribute("worksB", workRepository.findByStatusFalse());
+        modelClienti.addAttribute("clienti", workRepository.findDistinctCliente( ));
         return "archivio";
     }
-    
+    /*@GetMapping("/work/archivied/filter/{denominazione}")
+    public String filterAchivied(@RequestParam(value = "denominazione") String den, Model modelWorks) {
+       
+        return "archivio";
+    }*/
+    @PostMapping("/work/archivied/filter")
+    public String filterArchiviedWork(@Valid @ModelAttribute("cliente") FilterClient cliente, Model model,RedirectAttributes name,RedirectAttributes type,RedirectAttributes clienteC) {
+       
+        model.addAttribute("cliente", cliente);
+        //return "redirect:/work/archivied/filter?search:" + cliente.getName() + "?type:" + cliente.getType() + "?cliente:" + cliente.getCliente();
+       // name.addAttribute("name",cliente);
+       // type.addAttribute("type", cliente.getType());
+       // clienteC.addAttribute("cliente", cliente.getCliente());
+        return "redirect:/work/archivied/filter";
+    }
+    @GetMapping("/work/archivied/filter")
+    public String loadInfoArchiviedFilter(Model modelClienti) {
+        modelClienti.addAttribute("clienti", workRepository.findDistinctCliente( ));
+        return "archivio";
+    }
     }
 
 
