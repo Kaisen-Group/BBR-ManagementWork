@@ -154,11 +154,27 @@ public class SpringController {
        // name.addAttribute("name",cliente);
        // type.addAttribute("type", cliente.getType());
        // clienteC.addAttribute("cliente", cliente.getCliente());
-        return "redirect:/work/archivied/filter";
+        //return "redirect:/work/archivied/filter";
+        return "redirect:/work/archivied/filter?search=" + cliente.getName() + "&type=" + cliente.getType() + "&cliente=" + cliente.getCliente();
     }
     @GetMapping("/work/archivied/filter")
-    public String loadInfoArchiviedFilter(Model modelClienti) {
+    public String loadInfoArchiviedFilter(HttpServletRequest request,Model modelClienti, Model modelWorkB) {
         modelClienti.addAttribute("clienti", workRepository.findDistinctCliente( ));
+        String search = request.getParameter("search");
+        String type = request.getParameter("type");
+        String cliente = request.getParameter("cliente");
+        System.out.println(search + "+" + type + "+" + cliente);
+        List <Work> workSearched = new ArrayList<Work>();
+        List <Work> workArchivied = new ArrayList<Work>();
+        workArchivied = workRepository.findByStatusFalse();
+        if(!search.equals("")){
+            for (Work work : workArchivied) {
+                if(work.getName().toLowerCase().contains(search)){
+                    workSearched.add(work);
+                }
+            }
+        }
+        modelWorkB.addAttribute("worksB", workSearched);//change
         return "archivio";
     }
     }
