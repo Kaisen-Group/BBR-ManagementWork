@@ -84,32 +84,36 @@
       </nav>
     </header>
     <!--*  Section Home-->
-    <div class="row justify-content-center">
-        <div class="col-auto text-center">
-            <h1>Lavori Archiviati</h1>
-        </div>
+   <div class="row pt-2 text-center">
+    <div class="col-xs-2 col-sm-2 col-md-2 border border-2 border-primary bg-cs-blu" th:switch="${work.type}">
+      <span th:case="'ordine'" class="badge bg-success text-dark mt-2">Ordine</span>
+      <span th:case="'ordinem'" class="badge bg-warning text-dark mt-2">Ordine Multiplo</span>
+      <span th:case="'stampo'" class="badge bg-danger text-dark mt-2">Stampo</span>
     </div>
-    <div class="container-fluid">
-        <div class="row text-center mt-2 " th:each="work : ${worksB}" th:switch="${work.type}">
-          <a th:case="'ordine'" th:if="${!work.status}" th:href="@{/work/archivied/dashboard/{id}(id = ${work.id})}">
-          <div  class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
-              <h6 class="pt-2"> <th:block th:utext="${work.name} + ' | ' + ${work.data} + ' | ' + ${work.cliente}"/><span class="badge bg-success text-dark ms-2">Ordine</span></h6>
-          </div>
-        </a>
-        <a th:case="'ordinem'" th:if="${!work.status}" th:href="@{/work/archivied/dashboard/{id}(id = ${work.id})}"> 
-          <div   class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
-            <h6 class="pt-2"><th:block th:utext="${work.name} + ' | ' + ${work.data} + ' | ' + ${work.cliente}"/><span class="badge bg-warning text-dark ms-2">Ordine Multiplo</span></h6>
-        </div>
-      </a>
-      <a th:case="'stampo'" th:if="${!work.status}" th:href="@{/work/archivied/dashboard/{id}(id = ${work.id})}">
-          <div   class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
-            <h6 class="pt-2"><th:block th:utext="${work.name} + ' | ' + ${work.data} + ' | ' + ${work.cliente}"/><span class="badge bg-danger text-dark ms-2">Stampo</span></h6>
-        </div>
-      </a>
-        </div>
-        
-       
+    <div class="col-xs-2 col-sm-2 col-md-2 border border-2 border-primary bg-cs-blu">
+      <h6 class="pt-2"><th:block th:utext="${work.data}"/></h6>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 border border-2 border-primary bg-cs-blu">
+      <h6 class="pt-2"><th:block th:utext="${work.name}"/></h6>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2 border border-2 border-primary bg-cs-blu">
+      <h6 class="pt-2"><th:block th:utext="${work.cliente}"/></h6>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 border border-2 border-primary bg-cs-blu">
+      <h6 class="pt-2"><th:block th:utext="${work.ordine}"/></h6>
+    </div>
+   </div>
+   <div class="row justify-content-center pt-5">
+   
+            <div class="col-auto">
+              <a th:href="@{/work/archivied/update-status/{id}(id = ${id})}">
+              <button class="btn btn-warning rounded-pill btn-lg">
+               Attiva
+              </button>
+              </a>
       </div>
+    
+    </div>
    
    
     

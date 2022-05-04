@@ -33,3 +33,13 @@ html {
 .bg-cs-blu {
   background-color: #dbe5f4 !important;
 }
+a{
+  text-decoration: none !important;
+  
+}
+.text-white{
+  color: white !important;
+}
+.text-black{
+  color: black !important;
+}

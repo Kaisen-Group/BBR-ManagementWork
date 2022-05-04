@@ -38,7 +38,7 @@
       <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
           <div class="hero-adj">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" th:href="@{/index}">
               <img
                 
                 th:src="@{/assets/Images/logo/hero2.png}"
@@ -105,16 +105,22 @@
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
-                          <div class="row text-center mt-2 " th:each="work : ${works}" th:switch="${work.type}">
-                            <div th:case="'ordine'" th:if="${work.status}" class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
-                                <h6 class="pt-2"> <th:block th:utext="${work.name} + ' | ' + ${work.data}"/><span class="badge bg-success text-dark ms-2">Ordine</span></h6>
+                          <div class="row text-center mt-2 " th:each="work : ${worksA}" th:switch="${work.type}">
+                            <a th:case="'ordine'" th:if="${work.status}" th:href="@{/work/active/dashboard/{id}(id = ${work.id})}">
+                            <div  class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
+                                <h6 class="pt-2"> <th:block th:utext="${work.name} + ' | ' + ${work.data} + ' | ' + ${work.cliente}"/><span class="badge bg-success text-dark ms-2">Ordine</span></h6>
                             </div>
-                            <div th:case="'ordinem'" th:if="${work.status}"  class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
-                              <h6 class="pt-2"><th:block th:utext="${work.name} + ' | ' + ${work.data}"/><span class="badge bg-warning text-dark ms-2">Ordine Multiplo</span></h6>
+                            </a>
+                            <a th:case="'ordinem'" th:if="${work.status}" th:href="@{/work/active/dashboard/{id}(id = ${work.id})}">
+                            <div   class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
+                              <h6 class="pt-2"><th:block th:utext="${work.name} + ' | ' + ${work.data} + ' | ' + ${work.cliente}"/><span class="badge bg-warning text-dark ms-2">Ordine Multiplo</span></h6>
                           </div>
-                            <div th:case="'stampo'" th:if="${work.status}" class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
-                              <h6 class="pt-2"><th:block th:utext="${work.name} + ' | ' + ${work.data}"/><span class="badge bg-danger text-dark ms-2">Stampo</span></h6>
+                            </a>
+                            <a th:case="'stampo'" th:if="${work.status}" th:href="@{/work/active/dashboard/{id}(id = ${work.id})}">
+                            <div  class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
+                              <h6 class="pt-2"><th:block th:utext="${work.name} + ' | ' + ${work.data} + ' | ' + ${work.cliente}"/><span class="badge bg-danger text-dark ms-2">Stampo</span></h6>
                           </div>
+                            </a>
                           </div>
                           
                          
@@ -134,41 +140,12 @@
        
           <div class="col-xs-12 col-sm-6 col-md-3 adj-pt" >
             <div class="container border border-3 border-primary">
-              <a data-bs-toggle="modal" data-bs-target="#exampleModal3">
+              <a class="text-black" th:href="@{/work/archivied}">
               <div class="feature--icon"><i class="flaticon-gear"></i></div>
               <div class="cs-content text-center">
                 <h3 class="primary">Lavori Archiviati</h3>
                 <h2><th:block th:utext="${worksB.size}"></th:block></h2>
-                <div class="modal fade modal-fullscreen-xxl-down" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel3">Lavori Archiviati</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                          <div class="container-fluid">
-                        <div class="row text-center mt-2 " th:each="work : ${works}" th:switch="${work.type}">
-                          <div th:case="'ordine'" th:if="${!work.status}" class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
-                              <h6 class="pt-2"> <th:block th:utext="${work.name} + ' | ' + ${work.data}"/><span class="badge bg-success text-dark ms-2">Ordine</span></h6>
-                          </div>
-                          <div th:case="'ordinem'" th:if="${!work.status}"  class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
-                            <h6 class="pt-2"><th:block th:utext="${work.name} + ' | ' + ${work.data}"/><span class="badge bg-warning text-dark ms-2">Ordine Multiplo</span></h6>
-                        </div>
-                          <div th:case="'stampo'" th:if="${!work.status}" class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
-                            <h6 class="pt-2"><th:block th:utext="${work.name} + ' | ' + ${work.data}"/><span class="badge bg-danger text-dark ms-2">Stampo</span></h6>
-                        </div>
-                        </div>
-                        
-                       
-                      </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                
               </div>
               </a>
             </div>

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table (name = "\"work\"")
+@Table(name = "\"work\"")
 public class Work {
 
     @Id
@@ -31,7 +31,6 @@ public class Work {
     private @Setter String cliente;
     @Column(name = "ordine")
     private @Setter String ordine;
-  
 
     public Work(String name, String data, String type, Boolean status, String cliente, String ordine) {
         this.name = name;
@@ -41,5 +40,5 @@ public class Work {
         this.cliente = cliente;
         this.ordine = ordine;
     }
-    
+
 }
