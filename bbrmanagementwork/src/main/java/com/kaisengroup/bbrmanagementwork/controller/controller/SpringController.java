@@ -184,9 +184,33 @@ public class SpringController {
                 }
             }
         }
-        workFilteredT=(workRepository.findByType(type));
-        workFilteredC=(workRepository.findByCliente(cliente));
-        modelWorkB.addAttribute("worksB", workSearched);//change
+        if(!cliente.equals("") && !type.equals("")){
+            workFilteredT = workRepository.findAllByTypeAndCliente(type, cliente);
+        }else if(cliente.equals("") && !type.equals("")){
+            workFilteredT = workRepository.findByType(type);
+        }else if(!cliente.equals("") && type.equals("")){
+            workFilteredT = workRepository.findByCliente(cliente);
+        }
+        /*List<Work> threeCopy = new ArrayList<>(workFilteredT);
+        
+        for (Work work : workSearched) {
+            threeCopy.remove(work);
+        }
+       workFilteredT.removeAll(threeCopy);*/
+       if(workSearched.size() == 0 && workFilteredT.size()==0 && workSearched.size()==0){
+        modelWorkB.addAttribute("worksB", workArchivied);
+       }else{
+        List<Work> threeCopy = new ArrayList<>(workFilteredT);
+           for (Work work  : workFilteredT) {
+            for (Work work2  : workSearched) {
+               if(!work.equals(work2)&&work!=null){
+                   workFilteredT.remove(work);
+               }
+            }
+           }
+           System.out.println(workFilteredT);
+        modelWorkB.addAttribute("worksB", workFilteredT);//change
+    }
         modelFilterClient.addAttribute("cliente", c);
         return "archivio";
     }

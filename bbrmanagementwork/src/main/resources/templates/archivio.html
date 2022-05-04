@@ -89,7 +89,7 @@
             <h1>Lavori Archiviati</h1>
         </div>
     </div>
-    <div class="row justify-content-center">
+    
       <form class="g-3 needs-validation" novalidate th:action="@{'/work/archivied/filter'}"  modelAttribute="cliente"  method="POST">
         <div class="row justify-content-center">
         <div class="col-3 text-center">
@@ -128,15 +128,16 @@
             <button type="submit" class="btn btn-primary rounded-pill mt-4" value="Add Work">Filtra</button>
           </div>
         </div>
-        <div class="mb-3">
-          <div class="justify-content-center align-content-center text-center">
-            <button type="submit" class="btn btn-primary rounded-pill mt-4" value="Add Work">Resetta</button>
-          </div>
-        </div>
       </div>
     </div>
       </form>
-     
+      <div class="mb-3">
+        <div class="justify-content-center align-content-center text-center">
+          <a th:href="@{/work/archivied}">
+          <button class="btn btn-primary rounded-pill mt-4" >Resetta</button>
+        </a>
+        </div>
+      </div>
 
     <div class="container-fluid">
         <div class="row text-center mt-2 " th:each="work : ${worksB}" th:switch="${work.type}">
