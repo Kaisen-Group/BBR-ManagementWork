@@ -86,16 +86,16 @@
     <!--*  Section Home-->
     <div class="row justify-content-center">
         <div class="col-auto text-center">
-            <h1>Lavori Archiviati</h1>
+            <h1 class="pt-4">Lavori Archiviati</h1>
         </div>
     </div>
     
-      <form class="g-3 needs-validation" novalidate th:action="@{'/work/archivied/filter'}"  modelAttribute="cliente"  method="POST">
+      <form class="g-3 needs-validation pt-3" novalidate th:action="@{'/work/archivied/filter'}"  modelAttribute="cliente"  method="POST">
         <div class="row justify-content-center">
         <div class="col-3 text-center">
         <div class="mb-3">
           
-          <label for="denominazione" class="form-label">Cerca</label>
+          <label for="denominazione" class="form-label">Denominazione</label>
           <input type="text" class="form-control" id="denominazione" th:value="${cliente.name}" th:field="*{cliente.name}">
         </div>
         </div>
@@ -134,7 +134,7 @@
       <div class="mb-3">
         <div class="justify-content-center align-content-center text-center">
           <a th:href="@{/work/archivied}">
-          <button class="btn btn-primary rounded-pill mt-4" >Resetta</button>
+          <button class="btn btn-primary rounded-pill mt-4" >Resetta Filtro</button>
         </a>
         </div>
       </div>

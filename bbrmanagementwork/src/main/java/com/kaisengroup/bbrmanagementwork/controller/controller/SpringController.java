@@ -197,19 +197,21 @@ public class SpringController {
             threeCopy.remove(work);
         }
        workFilteredT.removeAll(threeCopy);*/
-       if(workSearched.size() == 0 && workFilteredT.size()==0 && workSearched.size()==0){
+       if(workSearched.size() == 0 && workFilteredT.size()==0){
         modelWorkB.addAttribute("worksB", workArchivied);
-       }else{
-        List<Work> threeCopy = new ArrayList<>(workFilteredT);
-           for (Work work  : workFilteredT) {
-            for (Work work2  : workSearched) {
-               if(!work.equals(work2)&&work!=null){
-                   workFilteredT.remove(work);
-               }
-            }
-           }
-           System.out.println(workFilteredT);
+       }else if(workSearched.size() == 0 && workFilteredT.size()>0){
         modelWorkB.addAttribute("worksB", workFilteredT);//change
+    }else if(workSearched.size() > 0 && workFilteredT.size()==0){
+        modelWorkB.addAttribute("worksB", workSearched);//change
+    }else{
+        for (Work work : workSearched) {
+            for (Work work2 : workFilteredT) {
+                if(work.equals(work2)){
+                    workFilteredC.add(work2);
+                }
+            }
+        }
+        modelWorkB.addAttribute("worksB", workFilteredC);//change
     }
         modelFilterClient.addAttribute("cliente", c);
         return "archivio";
