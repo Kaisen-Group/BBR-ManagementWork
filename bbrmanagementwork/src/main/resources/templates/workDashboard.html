@@ -84,6 +84,11 @@
       </nav>
     </header>
     <!--*  Section Home-->
+    <div class="row justify-content-center">
+      <div class="col-auto text-center">
+          <h1 class="pt-4">Lavoro Attivo</h1>
+      </div>
+  </div>
    <div class="row pt-2 text-center">
     <div class="col-xs-2 col-sm-2 col-md-2 border border-2 border-primary bg-cs-blu" th:switch="${work.type}">
       <span th:case="'ordine'" class="badge bg-success text-dark mt-2">Ordine</span>
@@ -102,6 +107,27 @@
     <div class="col-xs-3 col-sm-3 col-md-3 border border-2 border-primary bg-cs-blu">
       <h6 class="pt-2"><th:block th:utext="${work.ordine}"/></h6>
     </div>
+   </div>
+   <div class="row justify-content-center">
+    <div class="col-auto text-center">
+        <h1 class="pt-3">Componenti</h1>
+    </div>
+</div>
+<div class="container">
+<div class="row text-center mt-2 " th:each="component : ${components}">
+  <a th:href="@{/work/archivied/dashboard/{id}(id = ${work.id})}">
+  <div  class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
+      <h6 class="pt-2"> <th:block th:utext="${component.name} + ' | ' + ${component.data}"/></h6>
+  </div>
+</a>
+</div>
+</div>
+   <div class="row justify-content-center pt-5"  th:if="${work.type} != 'ordine'">
+     <div class="col-xs-4 col-md-4 col-lg-4">
+      <div class="justify-content-center align-content-center text-center">
+        <button type="submit" class="btn btn-success bg-cs-blu rounded-pill txt-dark-green" ><i class="fa-solid fa-plus txt-dark-green"></i>  <strong>Crea Nuovo Componente</strong></button>
+    </div>
+     </div>
    </div>
    <div class="row justify-content-center pt-5">
     <div class="col-auto">
@@ -163,7 +189,7 @@
                      
                   
                         <div class="justify-content-center align-content-center text-center">
-                          <button type="submit" class="btn btn-primary rounded-pill" >Modifica</button>
+                          <button type="submit" class="btn btn-primary rounded-pill" onclick="formValidation()">Modifica</button>
                       </div>
                     </form>
                   </div>

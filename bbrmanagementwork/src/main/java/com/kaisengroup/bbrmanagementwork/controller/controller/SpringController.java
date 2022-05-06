@@ -1,8 +1,10 @@
 package com.kaisengroup.bbrmanagementwork.controller.controller;
 
+import com.kaisengroup.bbrmanagementwork.controller.model.Component;
 import com.kaisengroup.bbrmanagementwork.controller.model.FilterClient;
 import com.kaisengroup.bbrmanagementwork.controller.model.User;
 import com.kaisengroup.bbrmanagementwork.controller.model.Work;
+import com.kaisengroup.bbrmanagementwork.controller.repository.ComponentRepository;
 import com.kaisengroup.bbrmanagementwork.controller.repository.UserRepository;
 import com.kaisengroup.bbrmanagementwork.controller.repository.WorkRepository;
 
@@ -45,6 +47,8 @@ public class SpringController {
     private UserRepository userRepository;
     @Autowired
     private WorkRepository workRepository;
+    @Autowired
+    private ComponentRepository componentRepository ;
 
     @GetMapping("/all")
     public List<User> findAllUsers() {
@@ -79,6 +83,7 @@ public class SpringController {
 
     @PostMapping("/addWork")
     public String addWork(@Valid @ModelAttribute("work") Work work, Model model) {
+        Component component = new Component();
         LocalDate localDate = LocalDate.now();
 
         String data = localDate.toString();
@@ -86,13 +91,20 @@ public class SpringController {
         work.setStatus(true);
         model.addAttribute("work", work);
         workRepository.save(work);
+        if(work.getType().equals("ordine")){
+            component.setName(work.getName());
+            component.setData(work.getData());
+            component.setFkwork(work.getId());
+            componentRepository.save(component);
+        }
 
         return "redirect:/index";
     }
 
     @GetMapping("/work/active/dashboard/{id}")
-    public String loadWorkActive(@PathVariable("id") int id, Model modelWorks) {
+    public String loadWorkActive(@PathVariable("id") int id, Model modelWorks, Model modelComponent) {
         workRepository.findById(id).ifPresent(o -> modelWorks.addAttribute("work", o));
+        modelComponent.addAttribute("components", componentRepository.findByFkwork(id));
         // System.out.println("id: " + id);
         return "workDashboard";
     }
