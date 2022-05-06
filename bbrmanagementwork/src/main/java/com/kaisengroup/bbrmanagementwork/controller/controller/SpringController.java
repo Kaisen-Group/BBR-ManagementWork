@@ -42,6 +42,10 @@ public class SpringController {
     public FilterClient getcliente() {
        return new FilterClient();
     }
+    @ModelAttribute(value = "component")
+    public Component getComponent() {
+       return new Component();
+    }
 
     @Autowired
     private UserRepository userRepository;
@@ -227,6 +231,20 @@ public class SpringController {
     }
         modelFilterClient.addAttribute("cliente", c);
         return "archivio";
+    }
+    @PostMapping("/add/component/{id}")
+    public String addComponent(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model, Model modelWorks) {
+        LocalDate localDate = LocalDate.now();
+        String data = localDate.toString();
+        Work work = new Work();
+        workRepository.findById(id).ifPresent(o -> modelWorks.addAttribute("work", o));
+        model.addAttribute("component", component);
+        //workT = work;
+        component.setData(data);
+        component.setFkwork(id);
+        componentRepository.save(component);
+
+        return "redirect:/work/active/dashboard/{id}";
     }
     }
 
