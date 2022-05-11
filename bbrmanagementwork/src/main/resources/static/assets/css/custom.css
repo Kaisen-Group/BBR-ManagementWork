@@ -47,3 +47,6 @@ a{
   color: #006110 !important;
   
 }
+.row.rem-gutter{
+  --bs-gutter-x: 0rem !important;
+}

@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -194,7 +195,7 @@ public class SpringController {
         workArchivied = workRepository.findByStatusFalse();
         if(!search.equals("")){
             for (Work work : workArchivied) {
-                if(work.getName().toLowerCase().contains(search)){
+                if(work.getName().toLowerCase().contains(search.toLowerCase())){
                     workSearched.add(work);
                    
                 }
@@ -245,6 +246,40 @@ public class SpringController {
         componentRepository.save(component);
 
         return "redirect:/work/active/dashboard/{id}";
+    }
+    @GetMapping("/component/dashboard/{id}")
+    public String loadComponent(@PathVariable("id") int id, Model modelWorks, Model modelComponent) {
+        Component comp = new Component();
+        componentRepository.findById(id).ifPresent(o -> modelComponent.addAttribute("component", o));
+        componentRepository.findById(id).ifPresent(o -> comp.setFkwork(o.getFkwork()));
+        int fk = comp.getFkwork();
+        workRepository.findById(fk).ifPresent(o -> modelWorks.addAttribute("work", o));
+        
+        // System.out.println("id: " + id);
+        return "componentDashboard";
+    }
+    @GetMapping("/component/delete/{id}")
+    public String deleteComponent(@PathVariable("id") int id, Model modelComponent) {
+        Component component = componentRepository.findById(id).get();
+        Work work = workRepository.findById(component.getFkwork()).get();
+        componentRepository.delete(component);
+        if(work.getType().equals("ordine")){
+            workRepository.delete(work);
+        }
+        return "redirect:/index";
+    }
+    @PostMapping("/component/update/{id}")
+    public String updateComponent(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model) {
+        Component comp = componentRepository.findById(id).get();
+        String data = comp.getData().toString();
+        int fk = comp.getFkwork();
+        model.addAttribute("component", component);
+        comp = component;
+        comp.setData(data);
+        comp.setFkwork(fk);
+        componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
     }
     }
 

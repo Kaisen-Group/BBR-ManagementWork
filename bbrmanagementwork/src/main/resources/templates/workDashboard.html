@@ -116,7 +116,7 @@
 </div>
 <div class="container">
 <div class="row text-center mt-2 " th:each="component : ${components}">
-  <a th:href="@{/work/archivied/dashboard/{id}(id = ${work.id})}">
+  <a th:href="@{/component/dashboard/{id}(id = ${component.id})}">
   <div  class="col-xs-12 col-sm-12 col-md-12 border border-3 rounded-pill border-primary bg-cs-blu">
       <h6 class="pt-2"> <th:block th:utext="${component.name} + ' | ' + ${component.data}"/></h6>
   </div>
