@@ -50,3 +50,6 @@ a{
 .row.rem-gutter{
   --bs-gutter-x: 0rem !important;
 }
+.row.border-success{
+  border-color: #033c22 !important;
+}
