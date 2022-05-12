@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ComponentRepository extends JpaRepository<Component, Integer> {
     //@Query("SELECT Component FROM component WHERE idwork = idwork")
-    List<Component> findByFkwork(int fkwork);
+    List<Component> findByFkworkOrderByIdAsc(int fkwork);
 
 }

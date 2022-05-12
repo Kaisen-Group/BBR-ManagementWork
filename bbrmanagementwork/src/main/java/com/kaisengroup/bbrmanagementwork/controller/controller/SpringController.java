@@ -4,9 +4,11 @@ import com.kaisengroup.bbrmanagementwork.controller.model.Component;
 import com.kaisengroup.bbrmanagementwork.controller.model.FilterClient;
 import com.kaisengroup.bbrmanagementwork.controller.model.User;
 import com.kaisengroup.bbrmanagementwork.controller.model.Work;
+import com.kaisengroup.bbrmanagementwork.controller.model.WorkSheet;
 import com.kaisengroup.bbrmanagementwork.controller.repository.ComponentRepository;
 import com.kaisengroup.bbrmanagementwork.controller.repository.UserRepository;
 import com.kaisengroup.bbrmanagementwork.controller.repository.WorkRepository;
+import com.kaisengroup.bbrmanagementwork.controller.repository.WorkSheetRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -47,6 +49,10 @@ public class SpringController {
     public Component getComponent() {
        return new Component();
     }
+    @ModelAttribute(value = "worksheet")
+    public WorkSheet getWorkSheet() {
+       return new WorkSheet();
+    }
 
     @Autowired
     private UserRepository userRepository;
@@ -54,6 +60,8 @@ public class SpringController {
     private WorkRepository workRepository;
     @Autowired
     private ComponentRepository componentRepository ;
+    @Autowired
+    private WorkSheetRepository worksheetRepository ;
 
     @GetMapping("/all")
     public List<User> findAllUsers() {
@@ -109,7 +117,7 @@ public class SpringController {
     @GetMapping("/work/active/dashboard/{id}")
     public String loadWorkActive(@PathVariable("id") int id, Model modelWorks, Model modelComponent) {
         workRepository.findById(id).ifPresent(o -> modelWorks.addAttribute("work", o));
-        modelComponent.addAttribute("components", componentRepository.findByFkwork(id));
+        modelComponent.addAttribute("components", componentRepository.findByFkworkOrderByIdAsc(id));
         // System.out.println("id: " + id);
         return "workDashboard";
     }
@@ -248,12 +256,13 @@ public class SpringController {
         return "redirect:/work/active/dashboard/{id}";
     }
     @GetMapping("/component/dashboard/{id}")
-    public String loadComponent(@PathVariable("id") int id, Model modelWorks, Model modelComponent) {
+    public String loadComponent(@PathVariable("id") int id, Model modelWorks, Model modelComponent, Model worksheet) {
         Component comp = new Component();
         componentRepository.findById(id).ifPresent(o -> modelComponent.addAttribute("component", o));
         componentRepository.findById(id).ifPresent(o -> comp.setFkwork(o.getFkwork()));
         int fk = comp.getFkwork();
         workRepository.findById(fk).ifPresent(o -> modelWorks.addAttribute("work", o));
+        worksheet.addAttribute("worksheets", worksheetRepository.findByFkcompOrderByIdAsc(id));
         
         // System.out.println("id: " + id);
         return "componentDashboard";
@@ -278,6 +287,121 @@ public class SpringController {
         comp.setData(data);
         comp.setFkwork(fk);
         componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/component/update/price/{id}")
+    public String updatePrice(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model) {
+        Component comp = componentRepository.findById(id).get();
+       
+        model.addAttribute("component", component);
+        comp.setPrezzo(component.getPrezzo());
+        componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/component/update/material/{id}")
+    public String updateMaterial(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model) {
+        Component comp = componentRepository.findById(id).get();
+       
+        model.addAttribute("component", component);
+        comp.setMateriale(component.getMateriale());
+        componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/component/update/furniture/{id}")
+    public String updateFurniture(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model) {
+        Component comp = componentRepository.findById(id).get();
+       
+        model.addAttribute("component", component);
+        comp.setFornitore(component.getFornitore());
+        componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/component/update/peso/{id}")
+    public String updatePeso(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model) {
+        Component comp = componentRepository.findById(id).get();
+       
+        model.addAttribute("component", component);
+        comp.setPeso(component.getPeso());
+        componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/component/update/costruiti/{id}")
+    public String updateCostruiti(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model) {
+        Component comp = componentRepository.findById(id).get();
+       
+        model.addAttribute("component", component);
+        comp.setCostruiti(component.getCostruiti());
+        componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/component/update/consegnati/{id}")
+    public String updateConsegnati(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model) {
+        Component comp = componentRepository.findById(id).get();
+       
+        model.addAttribute("component", component);
+        comp.setConsegnati(component.getConsegnati());
+        componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/component/update/magazzino/{id}")
+    public String updateMagazzino(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model) {
+        Component comp = componentRepository.findById(id).get();
+       
+        model.addAttribute("component", component);
+        comp.setMagazzino(component.getMagazzino());
+        componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/component/update/lavesterne/{id}")
+    public String updateLavEsterne(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model) {
+        Component comp = componentRepository.findById(id).get();
+       
+        model.addAttribute("component", component);
+        comp.setLavesterne(component.getLavesterne());
+        componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/component/update/annotazioni/{id}")
+    public String updateAnnotazioni(@PathVariable("id") int id, @Valid @ModelAttribute("component") Component component, Model model) {
+        Component comp = componentRepository.findById(id).get();
+       
+        model.addAttribute("component", component);
+        comp.setAnnotazioni(component.getAnnotazioni());
+        componentRepository.save(comp);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/add/worksheet/{id}")
+    public String addWorkSheet(@PathVariable("id") int id, @Valid @ModelAttribute("worksheet") WorkSheet worksheet, Model model, Model modelWorks) {
+        LocalDate localDate = LocalDate.now();
+        String data = localDate.toString();
+        Work work = new Work();
+        componentRepository.findById(id).ifPresent(o -> modelWorks.addAttribute("component", o));
+        model.addAttribute("worksheet", worksheet);
+        //workT = work;
+        worksheet.setData(data);
+        worksheet.setFkcomp(id);
+        worksheetRepository.save(worksheet);
+
+        return "redirect:/component/dashboard/{id}";
+    }
+    @PostMapping("/worksheet/update/ore/{id}/{idws}")
+    public String updateOre(@PathVariable("id") int id,@PathVariable("idws") int idws, @Valid @ModelAttribute("worksheet") WorkSheet worksheet, Model model) {
+        WorkSheet ws = worksheetRepository.findById(idws).get();
+       
+        model.addAttribute("worksheet", worksheet);
+        ws.setOrainizio(worksheet.getOrainizio());
+        ws.setOrafine(worksheet.getOrafine());
+        worksheetRepository.saveAndFlush(ws);
 
         return "redirect:/component/dashboard/{id}";
     }
